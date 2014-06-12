@@ -3,21 +3,13 @@
 - name: Install packages required by the Django app inside virtualenv
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
 
-- name: Run the Django syncdb command
+- name: Run the Fabric db_load command
   shell: . {{ virtualenv_path }}/bin/activate
          && . {{ virtualenv_path }}/bin/postactivate
          && cd {{ application_path }}
-         && python manage.py syncdb --noinput --settings={{ django_settings_file }}
-  when: run_django_syncdb
-  tags: django
-
-- name: Run Django South migrations
-  shell: . {{ virtualenv_path }}/bin/activate
-         && . {{ virtualenv_path }}/bin/postactivate
-         && cd {{ application_path }}
-         && python manage.py migrate --noinput --settings={{ django_settings_file }}
-  when: run_django_south_migration
-  tags: django
+         && fabfile.py fab db_load 
+  when: run_fab_db_load
+  tags: fabric
 
 - name: Run Django collectstatic
   shell: . {{ virtualenv_path }}/bin/activate
@@ -27,5 +19,18 @@
   when: run_django_collectstatic
   tags: django
 
-
-
+#- name: Run the Django syncdb command
+#  shell: . {{ virtualenv_path }}/bin/activate
+#         && . {{ virtualenv_path }}/bin/postactivate
+#         && cd {{ application_path }}
+#         && python manage.py syncdb --noinput --settings={{ django_settings_file }}
+#  when: run_django_syncdb
+#  tags: django
+#
+#- name: Run Django South migrations
+#  shell: . {{ virtualenv_path }}/bin/activate
+#         && . {{ virtualenv_path }}/bin/postactivate
+#         && cd {{ application_path }}
+#         && python manage.py migrate --noinput --settings={{ django_settings_file }}
+#  when: run_django_south_migration
+#  tags: django

@@ -1,31 +1,32 @@
 ---
 
-- name: Install PostgreSQL
+- name: Install MySQL
+  sudo: True
   apt: name={{ item }} update_cache={{ update_apt_cache }} state=installed
   with_items:
-    - postgresql
-    - postgresql-contrib
-    - libpq-dev
-    - python-psycopg2
+    - mysql-server
+    - libmysqlclient-dev
   tags: packages
 
-- name: Ensure the PostgreSQL service is running
-  service: name=postgresql state=started enabled=yes
+- name: Ensure the MySQL service is running
+  service: name=mysql state=started enabled=yes
+
+# TODO: Change root password and pair it with a variable
 
 - name: Ensure database is created
-  sudo_user: postgres
-  postgresql_db: db={{ db_name }} state=present
+  mysql_db: db={{ db_name }}
+            state=present
+            login_user=root
+            login_password=password
 
 - name: Ensure user has access to the database
-  sudo_user: postgres
-  postgresql_user: db={{ db_name }}
-                   name={{ db_user }}
-                   password={{ db_password }}
-                   priv=ALL
-                   state=present
-
-- name: Ensure user does not have unnecessary privileges
-  sudo_user: postgres
-  postgresql_user: name={{ db_user }}
-                   role_attr_flags=NOSUPERUSER,NOCREATEDB
-                   state=present
+  mysql_user: name=root
+              login_user=root
+              login_password=password
+              host={{ item }}
+              password=password
+              priv=*.*:ALL,GRANT
+              state=present
+  with_items:
+    - localhost
+    - 127.0.0.1
