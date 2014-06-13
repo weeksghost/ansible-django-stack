@@ -33,6 +33,8 @@ smtp_password: mypassword
 django_settings_file: settings.example
 django_secret_key: akr2icmg1n8%z^3fe3c+)5d0(t^cy-2_25rrl35a7@!scna^1#
 
+run_django_collectstatic: yes
 run_django_syncdb: yes
 run_django_south_migration: yes
-run_django_collectstatic: yes
+
+#run_fab_db_load: yes

@@ -1,44 +1,49 @@
 ---
 
 - name: Install packages required by the Django app inside virtualenv
+  sudo: True
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
   tags: pip
 
-#TODO: Create symlink command
+# TODO: Make symlink only occur once
 
 #- name: Symlink settings file
-#  shell: cd {{ settings_path }}
-#         && ln -s settings.py __init__.py
+#  sudo: True
+#  shell: cd {{ settings_root }}
+#         && ln -s {{ settings_path }}settings.py __init__.py
 #  tags: link
 
-- name: Run the Fabric db_load command
-  shell: . {{ virtualenv_path }}/bin/activate
-         && . {{ virtualenv_path }}/bin/postactivate
-         && cd {{ application_path }}
-         && fabfile.py fab db_load
-  when: run_fab_db_load
-  tags: fabric
+#- name: Run the Fabric db_load command
+#  sudo: True
+#  shell: . {{ virtualenv_path }}/bin/activate
+#         && . {{ virtualenv_path }}/bin/postactivate
+#         && cd {{ application_path }}
+#         && fab db_load
+#  when: run_fab_db_load
+#  tags: fabric
 
-- name: Run Django collectstatic
+#- name: Run Django collectstatic
+#  sudo: True
+#  shell: . {{ virtualenv_path }}/bin/activate
+#         && cd {{ project_path }}
+#         && python manage.py collectstatic --noinput #--settings={{ django_settings_file }}
+#  when: run_django_collectstatic
+#  tags: django
+
+- name: Run the Django syncdb command
+  sudo: True
   shell: . {{ virtualenv_path }}/bin/activate
          && . {{ virtualenv_path }}/bin/postactivate
-         && cd {{ application_path }}
-         && python manage.py collectstatic --noinput --settings={{ django_settings_file }}
-  when: run_django_collectstatic
+         && cd {{ project_path }}
+         && python manage.py syncdb --noinput #--settings={{ django_settings_file }}
+  when: run_django_syncdb
   tags: django
 
-#- name: Run the Django syncdb command
-#  shell: . {{ virtualenv_path }}/bin/activate
-#         && . {{ virtualenv_path }}/bin/postactivate
-#         && cd {{ application_path }}
-#         && python manage.py syncdb --noinput --settings={{ django_settings_file }}
-#  when: run_django_syncdb
-#  tags: django
-#
-#- name: Run Django South migrations
-#  shell: . {{ virtualenv_path }}/bin/activate
-#         && . {{ virtualenv_path }}/bin/postactivate
-#         && cd {{ application_path }}
-#         && python manage.py migrate --noinput --settings={{ django_settings_file }}
-#  when: run_django_south_migration
-#  tags: django
+- name: Run Django South migrations
+  sudo: True
+  shell: . {{ virtualenv_path }}/bin/activate
+         && . {{ virtualenv_path }}/bin/postactivate
+         && cd {{ project_path }}
+         && python manage.py migrate --noinput #--settings={{ django_settings_file }}
+  when: run_django_south_migration
+  tags: django

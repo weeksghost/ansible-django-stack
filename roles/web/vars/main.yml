@@ -1,7 +1,7 @@
 ---
 
 # Application settings.
-virtualenv_path: "{{ application_name }}"
+virtualenv_path: "/webapps/{{ application_name }}"
 project_path: "{{ virtualenv_path }}/{{ project_name }}"
 application_path: "{{ project_path }}/{{ application_name }}"
 application_log_dir: "/var/log/gunicorn/"

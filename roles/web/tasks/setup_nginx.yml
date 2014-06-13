@@ -9,17 +9,20 @@
   sudo: True
   service: name=nginx state=stopped
 
-#- name: Copy the SSL cert and key to the remote server
-#  copy: src={{ ssl_src_dir }}/ dest={{ ssl_dest_dir }}
+- name: Copy the SSL cert and key to the remote server
+  sudo: True
+  copy: src={{ ssl_src_dir }}/ dest={{ ssl_dest_dir }}
 
-#- name: Decrypt the SSL key
-#  command: openssl aes-256-cbc -salt -a -d -in {{ ssl_dest_dir }}/nginx.key
-#           -out {{ ssl_dest_dir }}/decrypted.key -k {{ ssl_key_password }}
-#           creates={{ ssl_dest_dir }}/decrypted.key
+- name: Decrypt the SSL key
+  sudo: True
+  command: openssl aes-256-cbc -salt -a -d -in {{ ssl_dest_dir }}/nginx.key
+           -out {{ ssl_dest_dir }}/decrypted.key -k {{ ssl_key_password }}
+           creates={{ ssl_dest_dir }}/decrypted.key
 
-#- name: Rename the decrypted SSL key
-#  command: mv {{ ssl_dest_dir }}/decrypted.key {{ ssl_dest_dir }}/nginx.key
-#           removes={{ ssl_dest_dir }}/decrypted.key
+- name: Rename the decrypted SSL key
+  sudo: True
+  command: mv {{ ssl_dest_dir }}/decrypted.key {{ ssl_dest_dir }}/nginx.key
+           removes={{ ssl_dest_dir }}/decrypted.key
 
 - name: Create the Nginx configuration file
   sudo: True

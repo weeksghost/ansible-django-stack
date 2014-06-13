@@ -1,10 +1,12 @@
 ---
 
 - name: Install Memcached
+  sudo: True
   apt: name=memcached update_cache={{ update_apt_cache }} state=installed
   tags: packages
 
 - name: Create the Memcached configuration file
+  sudo: True
   template: src=memcached.conf.j2
             dest=/etc/memcached.conf
             mode=0644
@@ -13,4 +15,5 @@
     - restart memcached
 
 - name: Ensure the Memcached service is running
+  sudo: True
   service: name=memcached state=started enabled=yes

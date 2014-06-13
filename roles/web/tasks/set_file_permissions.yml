@@ -1,6 +1,7 @@
 ---
 
 - name: Ensure that the application file permissions are set properly
+  sudo: True
   file: path={{ virtualenv_path }}
         recurse=yes
         owner={{ gunicorn_user }}
