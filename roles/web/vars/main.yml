@@ -4,9 +4,12 @@
 virtualenv_path: "{{ application_name }}"
 project_path: "{{ virtualenv_path }}/{{ project_name }}"
 application_path: "{{ project_path }}/{{ application_name }}"
-application_log_dir: "{{ virtualenv_path }}/logs"
-application_log_file: "{{ application_log_dir }}/gunicorn_supervisor.log"
+application_log_dir: "/var/log/gunicorn/"
+application_log_file: "/var/log/gunicorn/gunicorn_supervisor.log"
+application_err_file: "/var/log/gunicorn/gunicorn_supervisor_err.log"
 requirements_file: "{{ project_path }}/requirements.txt"
+settings_root: "{{ application_path }}/settings/"
+settings_path: "{{ application_path }}/settings/example/"
 
 
 # Gunicorn settings

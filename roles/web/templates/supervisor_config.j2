@@ -2,4 +2,4 @@
 command = {{ virtualenv_path }}/bin/gunicorn_start
 user = {{ gunicorn_user }}
 stdout_logfile = {{ application_log_file }}
-redirect_stderr = true
+stderr_logfile = {{ application_err_file }}
