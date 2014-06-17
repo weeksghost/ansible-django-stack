@@ -1,12 +1,16 @@
 ---
 
 - name: Install MySQL
-  sudo: True
   apt: name={{ item }} update_cache={{ update_apt_cache }} state=installed
   with_items:
     - mysql-server
     - libmysqlclient-dev
   tags: packages
+  
+- name: Install MySQL Python Packages
+  pip: name={{ item }} state=latest
+  with_items:
+    - MySQL-python
 
 - name: Ensure the MySQL service is running
   service: name=mysql state=started enabled=yes

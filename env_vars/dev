@@ -3,7 +3,7 @@
 # Database settings.
 db_user: "{{ application_name }}"
 db_name: "{{ application_name }}"
-db_password: password
+db_password: "{{ current_password }}"
 
 
 # Gunicorn settings. For the number of workers, a good rule to follow is
@@ -30,7 +30,7 @@ smtp_password: mypassword
 
 
 # Application settings.
-django_settings_file: settings.example
+django_settings_file: settings.local
 django_secret_key: akr2icmg1n8%z^3fe3c+)5d0(t^cy-2_25rrl35a7@!scna^1#
 
 run_django_collectstatic: yes

@@ -1,11 +1,9 @@
 ---
 
 - name: Ubuntu dist upgrade
-  sudo: True
   apt: upgrade=dist
 
 - name: Ensure OpenSSl and libssl are the latest versions
-  sudo: True
   apt: name={{ item }} update_cache={{ update_apt_cache }} state=latest
   with_items:
     - openssl
@@ -13,9 +11,7 @@
     - libssl-doc
   tags: packages
 
-
 - name: Install base packages
-  sudo: True
   apt: name={{ item }} update_cache={{ update_apt_cache }} force=yes state=installed
   with_items:
     - build-essential
@@ -47,18 +43,14 @@
   tags: packages
 
 - name: Install Python Packages
-  sudo: True
   pip: name={{ item }} state=latest
   with_items:
     - pyflakes
-    - MySQL-python
 
 - name: Install newrelic
-  sudo: True
   pip: name=newrelic
   tags: packages
 
 - name: Install virtualenv
-  sudo: True
   pip: name=virtualenv
   tags: packages

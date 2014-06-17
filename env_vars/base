@@ -1,6 +1,6 @@
 ---
 
-git_repo: https://github.com/weeksghost/djangoproject
+git_repo: git@github.com:weeksghost/djangoproject.git
 
 project_name: djangoproject
 application_name: djangoproject

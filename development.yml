@@ -2,9 +2,9 @@
 
 - name: Provision a {{ application_name }} server
   hosts: all
-  #sudo: yes
-  #sudo_user: root
-  remote_user: emarty
+  sudo: yes
+  sudo_user: root
+  #remote_user: ubuntu
   vars:
     - setup_git_repo: yes
     - update_apt_cache: yes
@@ -12,7 +12,7 @@
     - new_password: "{{ current_password }}"
   vars_files:
     - env_vars/base
-    - env_vars/dev
+    - env_vars/local
 
   roles:
     - base
